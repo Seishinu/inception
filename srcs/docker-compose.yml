@@ -1,0 +1,30 @@
+version: '3'
+services:
+  nginx:
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginxcon
+    ports:
+      - 443:443
+    networks:
+      - inception
+  db:
+    build: ./requirements/mariadb
+    image: mariadb
+    container_name: mariadbcon
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadbvol:/var/lib/mysql
+    networks:
+      - inception
+volumes:
+  mariadbvol:
+    # name: dbvol
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: /home/ynuiga/data/dbvol
+networks:
+  inception:
+    driver: bridge
