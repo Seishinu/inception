@@ -20,6 +20,6 @@ up:
 down:
 	docker-compose -f ./srcs/docker-compose.yml down
 down-all:
-	sudo rm -rf /Users/zoukaddo/data/mariadb_data
-	sudo rm -rf /Users/zoukaddo/data/wordpress_data
+	sudo rm -rf /home/seishin/inception/mariadb_vol
+	sudo rm -rf /home/seishin/inception/wordpress_vol
 	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v

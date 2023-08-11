@@ -10,8 +10,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     mv wp-cli.phar /usr/local/bin/wp
 
 # RUN wp --info
-COPY ./tools/wp.sh /
+COPY ./tools/script.sh /
 
-RUN chmod +x wp.sh
+RUN chmod 777 script.sh
 
-CMD ["/wp.sh"]
+CMD ["/script.sh"]
