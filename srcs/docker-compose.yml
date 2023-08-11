@@ -2,47 +2,50 @@ version: '3'
 services:
   nginx:
     build: ./requirements/nginx
-    image: nginx
     container_name: nginxcon
-    env_file: .env
+    restart: always
+    # env_file: .env
+    depends_on:
+      - wordpress
     ports:
       - 443:443
     networks:
       - inception
   mariadb:
     build: ./requirements/mariadb
-    image: mariadb
     container_name: mariadbcon
     env_file: .env
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     volumes:
-      - mariadbvol:/var/lib/mysql
+      - mariadb_vol:/var/lib/mysql
     networks:
       - inception
   wordpress:
     build: ./requirements/wordpress
-    image: wordpress
-    depens_on: mariadb
+    depends_on:
+      - mariadb
     container_name: wordpresscon
     env_file: .env
-    # ports:
-    #   - 
     networks:
       - inception
+    volumes:
+      - wordpress_vol:/var/www/html
 volumes:
-  mariadbvol:
-    # name: mariadb
-    # driver_opts:
-    #   type: none
-    #   o: bind
-    #   device: /home/ynuiga/data/mariadb
-  wordpressvol:
-    name: wordpress
+  mariadb_vol:
+    name: mariadb_vol
+    driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/ynuiga/data/wordpress
+      device: /home/seishin/inception/mariadb_vol
+  wordpress_vol:
+    name: wordpress_vol
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/seishin/inception/wordpress_vol
 networks:
   inception:
     driver: bridge

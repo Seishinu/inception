@@ -10,14 +10,16 @@
 #                                                                              #
 # **************************************************************************** #
 
-# all: up
+build:
+	docker compose -f ./srcs/docker-compose.yml build
 
-# up: @docker-compose ./srcs/docker-compose.yml up
-
-# down: @docker-compose ./srcs/docker-compose.yml down
-
-# status: docker ps -a
-
-# clean: @docker rmi 
-
-# fclean:
+up:
+	sudo mkdir -p /home/seishin/inception/mariadb_vol
+	sudo mkdir -p /home/seishin/inception/wordpress_vol
+	docker compose -f ./srcs/docker-compose.yml up
+down:
+	docker-compose -f ./srcs/docker-compose.yml down
+down-all:
+	sudo rm -rf /Users/zoukaddo/data/mariadb_data
+	sudo rm -rf /Users/zoukaddo/data/wordpress_data
+	sudo docker compose -f ./srcs/docker-compose.yml down --rmi all -v
