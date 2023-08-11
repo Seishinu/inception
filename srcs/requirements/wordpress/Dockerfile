@@ -1,7 +1,17 @@
 FROM debian:buster
 
-RUN apt -y update
+RUN apt-get update && \
+	 apt-get install -y curl php-fpm php-mysql mariadb-client sendmail && \
+     mkdir -p /var/www/html/ && \
+     mkdir -p /run/php/
 
-RUN apt install php-pfm php-mysql -y && apt install curl -y
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+    chmod +x wp-cli.phar && \
+    mv wp-cli.phar /usr/local/bin/wp
 
-# copy
+# RUN wp --info
+COPY ./tools/wp.sh /
+
+RUN chmod +x wp.sh
+
+CMD ["/wp.sh"]
